@@ -32,12 +32,25 @@ RUN apt-get update \
 COPY package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-COPY config.json ./config.json
-COPY config.example.json ./config.example.json
+# config.example.json ist immer dabei, config.json optional als Seed.
+# Fehlt config.json, greift im Entrypoint automatisch die config.example.json.
+COPY config*.json ./
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# data/ fuer Laufzeitdaten (data.json, warns.json) anlegen und Rechte setzen
+# Live-Config und Laufzeitdaten liegen im persistenten Volume unter /app/data
+ENV CONFIG_PATH=/app/data/config.json
+ENV DATA_DIR=/app/data
+
+# data/ fuer Laufzeitdaten (config.json, data.json, warns.json) anlegen und Rechte setzen
 RUN mkdir -p /app/data && chown -R node:node /app
 
 USER node
 
+# Healthcheck: der Bot schreibt bei aktiver Discord-Verbindung regelmaessig eine
+# Heartbeat-Datei. Ist sie aelter als 120s, gilt der Container als ungesund.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=45s --retries=3 \
+    CMD node -e "const fs=require('fs');const f=process.env.HEALTHCHECK_FILE||require('os').tmpdir()+'/ecke-bot-healthy';try{process.exit(Date.now()-fs.statSync(f).mtimeMs<120000?0:1)}catch(e){process.exit(1)}"
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["node", "dist/index.js"]

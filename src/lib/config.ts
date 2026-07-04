@@ -69,8 +69,9 @@ export interface BotData {
     music?: SetupReference;
 }
 
-const CONFIG_PATH = join(process.cwd(), "config.json");
-const DATA_PATH = join(process.cwd(), "data", "data.json");
+const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), "data");
+const CONFIG_PATH = process.env.CONFIG_PATH || join(process.cwd(), "config.json");
+const DATA_PATH = join(DATA_DIR, "data.json");
 
 function loadConfig(): BotConfig {
     if (!existsSync(CONFIG_PATH)) {

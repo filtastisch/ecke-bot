@@ -19,14 +19,41 @@ Voraussetzung: Docker und Docker Compose sind installiert.
 ```bash
 docker compose up -d --build   # bauen und im Hintergrund starten
 docker compose logs -f         # Logs ansehen
-docker compose restart         # nach Aenderungen an config.json neu starten
+docker compose restart         # neu starten
 docker compose down            # stoppen
 ```
 
-- Der Bot-Token wird ueber `.env` (`env_file`) eingelesen.
-- `config.json` wird read-only ins Image gemountet - Aenderungen greifen nach `docker compose restart`, ohne neu zu bauen.
-- Laufzeitdaten (`data.json`, `data/warns.json`) liegen im gemounteten `./data`-Verzeichnis und bleiben ueber Neustarts erhalten.
+- Der Bot-Token wird als Umgebungsvariable `TOKEN` erwartet. Lokal wird dafuer automatisch die `.env` gelesen (`docker compose` substituiert `${TOKEN}`).
+- Laufzeitdaten **und** die Live-`config.json` liegen im benannten Volume `ecke-bot-data` (Mountpunkt `/app/data`) und bleiben ueber Neustarts/Updates erhalten.
+- Beim ersten Start wird die `config.json` automatisch ins Volume geseedet (aus der mitgebauten `config.json`, sonst aus `config.example.json`). Danach ist die Datei im Volume die "Quelle der Wahrheit".
+- `config.json` aendern: entweder die Datei im Volume bearbeiten (`docker compose exec ecke-bot sh` bzw. Portainer-Volume-Browser) und `docker compose restart`, oder das Volume loeschen, um neu zu seeden.
 - `ffmpeg` (via `ffmpeg-static`) und die `yt-dlp`-Binary werden im Image-Build bereitgestellt; `python3` ist im Runtime-Image enthalten, da die yt-dlp-Binary es benoetigt.
+- Der Container hat einen Healthcheck: der Bot schreibt bei aktiver Discord-Verbindung alle 30s einen Heartbeat; bleibt er >120s aus, wird der Container als `unhealthy` markiert.
+
+## Deployment mit Portainer
+
+Der Stack ist so gebaut, dass er ohne Host-Dateien auskommt (keine Bind-Mounts, Token per Umgebungsvariable, `config.json` selbst-seedend im Volume).
+
+**Variante A - Repository-Stack (empfohlen):**
+
+1. In Portainer: **Stacks -> Add stack -> Repository**.
+2. Repository-URL und Branch dieses Projekts angeben, Compose-Pfad `docker-compose.yml`.
+3. Unter **Environment variables** `TOKEN` (Pflicht) und optional `TZ` setzen.
+4. **Deploy the stack**. Portainer baut das Image direkt aus dem Repo.
+
+**Variante B - Web-Editor mit fertigem Image:**
+
+1. Image vorab bauen und in eine Registry pushen, z.B.:
+
+```bash
+docker build -t <registry>/ecke-bot:latest .
+docker push <registry>/ecke-bot:latest
+```
+
+2. In Portainer einen Stack per **Web editor** anlegen, den Inhalt der `docker-compose.yml` einfuegen, `build: .` entfernen und `image:` auf dein Registry-Image setzen.
+3. `TOKEN` (und optional `TZ`) unter **Environment variables** setzen und deployen.
+
+**config.json in Portainer bearbeiten:** Unter **Volumes -> `..._ecke-bot-data` -> Browse** die `config.json` oeffnen/hochladen, danach den Container neu starten. Alternativ per **Containers -> ecke-bot -> Console** (`/bin/sh`) direkt im Volume editieren.
 
 ## Start ohne Docker (lokal)
 

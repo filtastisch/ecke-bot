@@ -10,7 +10,8 @@ export interface WarnEntry {
 
 type WarnStore = Record<string, WarnEntry[]>;
 
-const WARNS_PATH = join(process.cwd(), "data", "warns.json");
+const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), "data");
+const WARNS_PATH = join(DATA_DIR, "warns.json");
 
 function loadStore(): WarnStore {
     if (!existsSync(WARNS_PATH)) return {};

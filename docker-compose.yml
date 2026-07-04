@@ -1,10 +1,27 @@
 services:
   ecke-bot:
+    # In Portainer per "Repository" deployen -> baut direkt aus diesem Repo.
+    # Alternativ vorab ein Image bauen/pushen und "build" entfernen.
     build: .
+    image: ecke-bot:latest
     container_name: ecke-bot
     restart: unless-stopped
+    # tini als PID 1: sauberes Signal-Handling + Reaping der yt-dlp/ffmpeg-Prozesse
+    init: true
+    environment:
+      # In Portainer unter "Environment variables" setzen (lokal via .env moeglich)
+      TOKEN: ${TOKEN:?TOKEN muss gesetzt sein}
+      TZ: ${TZ:-Europe/Berlin}
     volumes:
-      # config.json zur Laufzeit einbinden (read-only) -> Aenderungen ohne Rebuild
-      - ./config.json:/app/config.json:ro
-      # Laufzeitdaten persistent halten (data.json, warns.json)
-      - ./data:/app/data
+      # Persistente Laufzeitdaten UND die Live-config.json.
+      # config.json wird beim ersten Start automatisch ins Volume geseedet
+      # und kann danach ueber den Portainer-Volume-Browser bearbeitet werden.
+      - ecke-bot-data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  ecke-bot-data:
