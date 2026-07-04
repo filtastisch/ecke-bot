@@ -1,0 +1,12 @@
+node_modules/
+dist/
+
+# Secrets & Laufzeit-Daten
+.env
+data.json
+data/
+
+# Editor / OS
+.idea/
+.DS_Store
+*.log

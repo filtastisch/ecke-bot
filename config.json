@@ -1,0 +1,70 @@
+{
+  "prefix": "!",
+  "guildId": "1521455115377053868",
+  "channels": {
+    "welcome": "1521455115842617480",
+    "modLog": "1521755281934258186",
+    "memberLog": "1521875297979596961",
+    "messageLog": "1521875221215445222",
+    "music": "1521873949976166461",
+    "autoBan": "1521576514855108868"
+  },
+  "roles": {
+    "visitor": "1521455115377053869",
+    "moderator": ["1522043438436974612"],
+    "admin": ["1521574659475116092", "1521455115377053876", "1521455115377053875"]
+  },
+  "reactionRoles": {
+    "games": {
+      "title": "Spiel-Rollen",
+      "description": "Reagiere mit einem Emoji, um die Rolle für das Spiel zu erhalten!",
+      "color": 5793266,
+      "options": [
+        { "emoji": "<:seaoftieves:1523026669802098790>", "roleId": "1521574614197604413", "label": "Sea of Thives" },
+        { "emoji": "<:deadbydaylight:1523026660989866005>", "roleId": "1521578991075590216", "label": "Dead by Daylight" },
+        { "emoji": "<:meccachameleon:1523026662357471384>", "roleId": "1521579038223761489", "label": "Mecca Chameleon" },
+        { "emoji": "<:repo:1523026668669763584>", "roleId": "1521579041453244557", "label": "R.E.P.O." },
+        { "emoji": "<:overcooked:1523026664819396629>", "roleId": "1521579044624138281", "label": "Overcooked" },
+        { "emoji": "<:minecraft:1523026663569490041>", "roleId": "1521579048260866078", "label": "Minecraft" },
+        { "emoji": "<:contentwarning:1523026640601612370>", "roleId": "1521579052253843607", "label": "Content Warning" },
+        { "emoji": "<:phasmophobia:1523026667092705443>", "roleId": "1521579055994896654", "label": "Phasmophobia" },
+        { "emoji": "<:valorant:1523026671026962453>", "roleId": "1521579058909941800", "label": "Valorant" },
+        { "emoji": "<:amongus:1523026624918847589>", "roleId": "1521579062726754414", "label": "Among Us" }
+      ]
+    },
+    "colors": {
+      "title": "Lieblingsfarbe",
+      "description": "Reagiere mit einem Emoji, um deine Lieblingsfarbe zu wählen. Es kann nur eine Farbe gleichzeitig aktiv sein.",
+      "color": 15844367,
+      "options": [
+        { "emoji": "\uD83E\uDE77", "roleId": "1522037693733666888", "label": "Pink" },
+        { "emoji": "\uD83D\uDC9C", "roleId": "1522037785727467661", "label": "Lila" },
+        { "emoji": "\uD83E\uDDE1", "roleId": "1522037814139818044", "label": "Orange" },
+        { "emoji": "\uD83D\uDDA4", "roleId": "1522038051918843944", "label": "Schwarz" },
+        { "emoji": "\uD83E\uDD0D", "roleId": "1522037818665341008", "label": "Weiß" },
+        { "emoji": "\uD83D\uDC9B", "roleId": "1522037807009497229", "label": "Gelb" },
+        { "emoji": "\uD83D\uDC9A", "roleId": "1522037824805797968", "label": "Grün" }
+      ]
+    }
+  },
+  "music": {
+    "defaultVolume": 50,
+    "maxQueueSize": 100
+  },
+  "moderation": {
+    "maxWarns": 3,
+    "muteRoleId": "1522043907632791572",
+    "autoBanEnabled": true
+  },
+  "features": {
+    "joinRole": true,
+    "welcomeMessage": true,
+    "memberLog": true,
+    "modLog": true,
+    "autoMod": false
+  },
+  "messages": {
+    "welcome": "Willkommen {user} auf **{server}**! Du bist Mitglied Nr. {memberCount}.",
+    "leave": "{user} hat den Server verlassen."
+  }
+}

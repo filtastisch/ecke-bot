@@ -1,0 +1,60 @@
+{
+  "prefix": "!",
+  "guildId": "DEINE_GUILD_ID",
+  "channels": {
+    "welcome": "CHANNEL_ID",
+    "modLog": "CHANNEL_ID",
+    "memberLog": "CHANNEL_ID",
+    "messageLog": "CHANNEL_ID",
+    "music": "CHANNEL_ID",
+    "autoBan": "CHANNEL_ID"
+  },
+  "roles": {
+    "visitor": "ROLE_ID",
+    "moderator": ["ROLE_ID"],
+    "admin": ["ROLE_ID"]
+  },
+  "reactionRoles": {
+    "games": {
+      "title": "Spiel-Rollen",
+      "description": "Reagiere mit einem Emoji, um die Rolle fuer ein Spiel zu erhalten.",
+      "color": 5793266,
+      "options": [
+        { "emoji": "<:minecraft:000000000000000000>", "roleId": "ROLE_ID", "label": "Minecraft" },
+        { "emoji": "<:valorant:000000000000000000>", "roleId": "ROLE_ID", "label": "Valorant" },
+        { "emoji": "🎮", "roleId": "ROLE_ID", "label": "Beispiel Unicode-Emoji" }
+      ]
+    },
+    "colors": {
+      "title": "Lieblingsfarbe",
+      "description": "Reagiere mit einem Emoji, um deine Lieblingsfarbe zu waehlen. Es kann nur eine Farbe gleichzeitig aktiv sein.",
+      "color": 15844367,
+      "options": [
+        { "emoji": "🔴", "roleId": "ROLE_ID", "label": "Rot" },
+        { "emoji": "🟢", "roleId": "ROLE_ID", "label": "Gruen" },
+        { "emoji": "🔵", "roleId": "ROLE_ID", "label": "Blau" },
+        { "emoji": "🟡", "roleId": "ROLE_ID", "label": "Gelb" }
+      ]
+    }
+  },
+  "music": {
+    "defaultVolume": 50,
+    "maxQueueSize": 100
+  },
+  "moderation": {
+    "maxWarns": 3,
+    "muteRoleId": "ROLE_ID",
+    "autoBanEnabled": true
+  },
+  "features": {
+    "joinRole": true,
+    "welcomeMessage": true,
+    "memberLog": true,
+    "modLog": true,
+    "autoMod": false
+  },
+  "messages": {
+    "welcome": "Willkommen {user} auf **{server}**! Du bist Mitglied Nr. {memberCount}.",
+    "leave": "{user} hat den Server verlassen."
+  }
+}

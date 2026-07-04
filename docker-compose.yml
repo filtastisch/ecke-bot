@@ -1,0 +1,12 @@
+services:
+  ecke-bot:
+    build: .
+    container_name: ecke-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # config.json zur Laufzeit einbinden (read-only) -> Aenderungen ohne Rebuild
+      - ./config.json:/app/config.json:ro
+      # Laufzeitdaten persistent halten (data.json, warns.json)
+      - ./data:/app/data
